@@ -19,12 +19,12 @@ pipeline {
         }
         stage('terraform Initiation') {
             steps {
-               # sshagent (credentials: ['4a1fdd2c-75ee-4c98-8af8-6d8fe081b8ac']) {
+               
                     sh 'git config --global url."git@github.com:".insteadOf "https://github.com/"'
                     sh 'git submodule update --init --recursive; sleep 10s'
                     sh 'cd aws/; terraform init'
                 }
-            }
+            
         }
         stage('terraform dryrun') {
             steps {
