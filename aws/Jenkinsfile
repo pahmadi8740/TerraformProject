@@ -1,4 +1,9 @@
 pipeline {
+  options {
+    timestamps()
+    skipDefaultCheckout()
+    }
+    agent {label 'slave'}
   parameters {
     password (name: 'AWS_ACCESS_KEY_ID')
     password (name: 'AWS_SECRET_ACCESS_KEY')
@@ -10,6 +15,12 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = "${params.AWS_SECRET_ACCESS_KEY}"
   }
   stages {
+    stage('Checkout script') {
+      steps {
+        cleanWs()
+        checkout scm
+      }
+    }
     stage('Terraform Init') {
       steps {
         sh "${env.TERRAFORM_HOME}/terraform init -input=false"
